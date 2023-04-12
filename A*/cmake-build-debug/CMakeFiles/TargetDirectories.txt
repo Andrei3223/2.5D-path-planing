@@ -1,0 +1,3 @@
+/home/andrew23/path_planing/2.5D-path-planing/A*/cmake-build-debug/CMakeFiles/A_.dir
+/home/andrew23/path_planing/2.5D-path-planing/A*/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/andrew23/path_planing/2.5D-path-planing/A*/cmake-build-debug/CMakeFiles/rebuild_cache.dir
