@@ -2,11 +2,10 @@
 #include "A_class.h"
 
 int main(int argc, char *argv[]) {
-    //  heuristics, threshold, barriers, get size from .txt data, parameter 4 nodes around, param.txt
-//    A_star solution(argv[1], std::stoi(argv[3]), std::stoi(argv[4]));
+    // TODO rollover, max angle, get size from .txt data, param.txt
     A_star solution(argc, argv);
 
-    std::vector<std::pair<int, int>> result = solution.find_path({0, 0}, {3, 3});
+    std::vector<std::pair<int, int>> result = solution.find_path(solution.source, solution.target);
 
     solution.save_to_txt(result, argv[2]);
 

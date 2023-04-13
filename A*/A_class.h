@@ -1,10 +1,12 @@
-#include <iostream>
-#include <vector>
-#include <map>
-#include <set>
-#include <limits>
 #include <cmath>
 #include <fstream>
+#include <iostream>
+#include <limits>
+#include <map>
+#include <numbers>
+#include <set>
+#include <vector>
+
 
 enum {
     MISSED_VALUE = -9999
@@ -40,19 +42,14 @@ public:
 
     std::vector<std::pair<int, int>> return_path(std::pair<int, int> s, std::pair<int, int> t);
 
-    void save_to_txt(std::vector<std::pair<int, int>> path, char *name);
+    void save_to_txt(std::vector<std::pair<int, int>>& path, char *name);
 
+    std::pair<int, int> source, target;
 private:
 // c = dist between two adjacent grids
 // g = sum(c) - from start to the grid
 // h = heuristic function (Euclidean space between node and the target)
-    double h(int x, int y, int target_x, int target_y) {
-        double dif_h = landscape_[x][y] - landscape_[target_x][target_y];
-        dif_h *= weight_h;
-        auto dif_x = static_cast<double>(target_x - x);
-        auto dif_y = static_cast<double>(target_y - y);
-        return std::sqrt(dif_h * dif_h + dif_x * dif_x + dif_y * dif_y);
-    }
+    double h(int x, int y, int target_x, int target_y);
 
     double g(Node &parent, int x, int y) {
         double dif_h = landscape_[parent.x][parent.y] - landscape_[x][y];
@@ -74,7 +71,14 @@ private:
 
     // parameters
     double weight_h = 1;
+    double min_threshold = std::numeric_limits<double>::lowest();
+    double max_threshold = std::numeric_limits<double>::max();
+    bool four_neighbours = false;
 
+    double cell_len = 1;
+    double pi = acos(-1);
+    double angle_vert = pi;
+    double angle_hor = pi;
 };
 
 
