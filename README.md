@@ -1,2 +1,2 @@
 # 2.5D-path-planing
-My second year course work (in process)
+Processing GeoTIFF files. Visualising landscape (terrain) data. Path planner on 2.5D environment. (in process)
