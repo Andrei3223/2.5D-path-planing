@@ -51,14 +51,7 @@ private:
 // h = heuristic function (Euclidean space between node and the target)
     double h(int x, int y, int target_x, int target_y);
 
-    double g(Node &parent, int x, int y) {
-        double dif_h = landscape_[parent.x][parent.y] - landscape_[x][y];
-        dif_h *= weight_h;
-        auto dif_x = static_cast<double>(parent.x - x);
-        auto dif_y = static_cast<double>(parent.y - y);
-        double c = std::sqrt(dif_h * dif_h + dif_x * dif_x + dif_y * dif_y);
-        return parent.accumulated + c;
-    }
+    double g(Node &parent, int x, int y);
 
     bool valid_coordinate(Node &node, int i, int j) const;
 
@@ -77,8 +70,7 @@ private:
 
     double cell_len = 1;
     double pi = acos(-1);
-    double angle_vert = pi;
-    double angle_hor = pi;
+    double angle_vert = pi / 2;
 };
 
 

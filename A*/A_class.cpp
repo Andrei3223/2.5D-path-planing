@@ -85,6 +85,7 @@ std::vector<std::pair<int, int>> A_star::find_path(std::pair<int, int> s, std::p
                 if (landscape_[cur.x + i][cur.y + j] < min_threshold || landscape_[cur.x + i][cur.y + j] > max_threshold) {
                     continue;
                 }
+
                 double h_val = h(cur.x + i, cur.y + j, t.first, t.second);
                 double g_val = g(cur, cur.x + i, cur.y + j);
 
@@ -106,10 +107,20 @@ bool A_star::valid_coordinate(Node &node, int i, int j) const {
             return false;
         }
     }
-    if (node.x + i < x_size_ && node.x + i >= 0 && node.y + j < y_size_ && node.y + j >= 0) {
-        return true;
+    if (node.x + i >= x_size_ || node.x + i < 0 || node.y + j >= y_size_ || node.y + j < 0) {
+        return false;
     }
-    return false;
+
+    // check if angle is acceptable
+    double dh = landscape_[node.x][node.y] - landscape_[node.x + i][node.y + j];
+    if (dh < 0) {
+        dh *= -1.;
+    }
+    double atg = atan(dh / cell_len);
+    if (atan(dh / cell_len) > angle_vert) {
+        return false;
+    }
+    return true;
 }
 
 
@@ -149,6 +160,10 @@ A_star::A_star(int argc, char **argv) : parents_vec_(std::stoi(argv[3]), std::ve
             } else if (s == "-f" || s == "--4_neighbour") {
                 four_neighbours = true;
                 --i;
+            } else if (s == "-l" || s == "--cell_len") {
+                cell_len = std::stod(argv[i]);
+            } else if (s == "-av" || s == "--angle_vertical") {
+                angle_vert = std::stod(argv[i]) * pi / 180.;
             }
         }
     }
@@ -159,10 +174,10 @@ A_star::A_star(int argc, char **argv) : parents_vec_(std::stoi(argv[3]), std::ve
         throw std::runtime_error("target is no defined\n");
     }
     if (source.first < 0 || source.first >= x_size_ || source.second < 0 || source.second >= y_size_) {
-        throw std::runtime_error("start is out of map limits\n");
+        throw std::runtime_error("start is out of the map limits\n");
     }
     if (target.first < 0 || target.first >= x_size_ || target.second < 0 || target.second >= y_size_) {
-        throw std::runtime_error("start is out of map limits\n");
+        throw std::runtime_error("start is out of the map limits\n");
     }
 }
 
@@ -183,6 +198,14 @@ double A_star::h(int x, int y, int target_x, int target_y) {
     }
 }
 
+double A_star::g(Node &parent, int x, int y) {
+    double dif_h = landscape_[parent.x][parent.y] - landscape_[x][y];
+    dif_h *= weight_h;
+    auto dif_x = static_cast<double>(parent.x - x);
+    auto dif_y = static_cast<double>(parent.y - y);
+    double c = std::sqrt(dif_h * dif_h + dif_x * dif_x + dif_y * dif_y);
+    return parent.accumulated + c;
+}
 
 bool cmp::operator()(const Node &a, const Node &b) const {
     if (a.dist != b.dist) {
