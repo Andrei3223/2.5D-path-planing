@@ -1,7 +1,8 @@
 # 2.5D-path-planing
 
 ## General description
-
+  This project can process GeoTIFF files, visualize landscape (terrain) data. And there is a path planner on 2.5D environment.
+  
   This repo has two parts: 
 
   - A* algorithm for the path planning on terrain data (c++)
@@ -61,8 +62,6 @@ Parameters:
 `-l` [double] or `--cell_len` [double] the length of one node in the input array
 
 `-av` [double] or `--angle_vertical` [double] angle $\in$ [0, 90]  - the maximum angle between two neighbor points in the path (specify cell length to use this parameter)
-
-`-ah` [double] or `--angle_horizontal` [double] angle $\in$ [0, 90]  - rollover angle (the maximum angle between two neighbor points around any point in the path) (specify cell length to use this parameter)
 
 ## Getting started
   <h4> In case you what to get data from GEOTIFF files: </h4>
