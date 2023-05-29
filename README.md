@@ -15,7 +15,7 @@
   
 ## Preparing the data
 
-  (\* first part in notebook*)
+  (\* first part in notebook)
   
   If you want to use a real terrain data you can download it from https://apps.nationalmap.gov/downloader/#/ or https://www.pgc.umn.edu/data/elevation/ (all the data form folder *Data* was taken from first one).
   
@@ -40,7 +40,32 @@ Be ready that sometimes in .tiff files, some data can be missed. This data is ma
   
 ## Path planner
 
-Parameters:
+<h3> How to run the program: </h3>
+  Firstly, make a project in `A*/cmake-build-debug` directory:
+  
+    make
+  Then run it with compulsory parameters:
+  
+    1) path to input elevation data
+    2) path to the output file (would be created if it does not exist)
+    3) size of input array (size of the grid)
+  The order of first three parameters can not be changed.
+  
+  You also have to specify the -s and -t parameters (described lower).
+  
+  After, you can add some optional parameters (described lower).
+  
+  
+<h5> Example: </h5>
+
+Elevation array `../../Data/medium_1.txt` has size `200 x 200`, result will be stored to the file `output.txt`, the start of path has coordinates `0 0` and the target `199 199`:
+
+    ./A_ ../../Data/medium_1.txt output.txt 200 200 -s 0 0 -t 199 199
+<h5> Example with optional flags: </h5>
+
+    ./A_ ../../Data/medium_1.txt output.txt 200 200 -s 0 0 -t 199 199 -w 3 -f
+    
+<h3>Parameters: </h3>
 
 `-s` [int x, int y] source (the start coordinates of the searched path) 
 `-t` [int x, int y] target (the target coordinates of the searched path) 
@@ -63,6 +88,8 @@ Parameters:
 
 `-av` [double] or `--angle_vertical` [double] angle $\in$ [0, 90]  - the maximum angle between two neighbor points in the path (specify cell length to use this parameter)
 
+
+
 ## Getting started
   <h4> In case you what to get data from GEOTIFF files: </h4>
   Install GDAl packages (ubuntu guide: https://mothergeo-py.readthedocs.io/en/latest/development/how-to/gdal-ubuntu-pkg.html)
@@ -73,4 +100,10 @@ Parameters:
   
   <h4> For path planning: </h4>
   
-  TODO
+  Enter `A*/cmake-build-debug` directory in terminal. Make the project:
+  
+    make
+ And run the program (see more in the path planner section):
+ 
+    ./A_ ../../Data/medium_1.txt output.txt 200 200 -s 0 0 -t 199 199
+ 
